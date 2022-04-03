@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      # Install all dependencies (including dependencies for running tests)
+      - chmod +x ./scripts/load-dependencies.sh
+      - ./scripts/load-dependencies.sh
+  build:
+    commands:
+      # Use AWS SAM to package the application by using AWS CloudFormation
+      - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template-file template-export.yml
+artifacts:
+  files:
+    - template-export.yml
